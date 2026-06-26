@@ -1,0 +1,16 @@
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+# training outputs / model artifacts (don't commit large binaries)
+aegis_guard/
+hf_upload/
+_aegis_src/
+*.joblib
+*.bin
+*.safetensors
+# packaging / local
+*.zip
+.DS_Store
+.env
+wandb/
+.cache/

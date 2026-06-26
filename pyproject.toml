@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "aegis-guard"
+version = "0.1.0-p1"
+description = "Aegis — layered LLM jailbreak & prompt-injection defense (RJD-3 core detector)"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [{name = "Team RJD, IIT Jodhpur"}]
+dependencies = ["scikit-learn>=1.1", "pandas", "numpy", "scipy"]
+
+[project.optional-dependencies]
+data = ["datasets>=2.18", "huggingface_hub"]
+guard = ["transformers>=4.44", "torch", "sentence-transformers", "faiss-cpu"]
+ops = ["wandb"]
+
+[tool.setuptools.packages.find]
+include = ["aegis*"]
