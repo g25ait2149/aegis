@@ -8,6 +8,12 @@ Kaggle. No more dataset versions to juggle.
 
 ## 1. Publish the repo to GitHub (one time)
 
+> ⚠️ **Push the UNZIPPED contents, not `Aegis_repo.zip`.** Git does not unzip — if the
+> repo contains only the zip, a `git clone` on Kaggle just downloads that one file and
+> there is no `aegis/` or `eval/` package to import (`ModuleNotFoundError: No module
+> named 'eval'`). First **unzip** `Aegis_repo.zip`, then publish the folder that contains
+> `aegis/`, `eval/`, `notebooks/` — the repo's top level must show those folders, **not** a `.zip`.
+
 **Option A — GitHub website (no git CLI):**
 1. Create a new repo at https://github.com/new — name it `aegis`, Public (simplest), **don't** add a README (this repo has one).
 2. On the empty repo page click **uploading an existing file**, then drag in the **contents** of this folder (the `aegis/`, `eval/`, `notebooks/`, `docs/` folders + `README.md` etc. — i.e. the folder that contains `aegis/__init__.py` one level down).
@@ -116,11 +122,4 @@ cd "C:\path\to\aegis"
 git init -b main
 git add -A
 git commit -m "Aegis P1-P4"
-git remote add origin https://github.com/g25ait2149/aegis.git
-git push -u origin main
-```
-On the first push a browser/credential window appears — sign in (or paste a **Personal Access Token** as the password; GitHub no longer accepts account passwords).
-
-**Future updates:** `git add -A ; git commit -m "msg" ; git push`
-
-> Even simpler GUI path: VS Code **Source Control** panel → **Publish to GitHub** → pick *public* → it creates `g25ait2149/aegis` and pushes for you.
+git remote add origin 
