@@ -8,6 +8,12 @@ _aegis_src/
 *.joblib
 *.bin
 *.safetensors
+# packaging / build / test artifacts
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+.eggs/
 # packaging / local
 *.zip
 .DS_Store
