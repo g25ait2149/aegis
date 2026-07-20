@@ -1,4 +1,4 @@
-"""Aegis test suite — one assertion per layer (L0–L5) plus the service."""
+"""Aegis test suite - one assertion per layer (L0-L5) plus the service."""
 import os
 import sys
 

@@ -1,9 +1,9 @@
 """
-Aegis L2 — wrappers around open guard models, used as strong baselines and as
+Aegis L2 - wrappers around open guard models, used as strong baselines and as
 ensemble members. Two modes:
 
   - "classifier": a small text-classification guard (default:
-     protectai/deberta-v3-base-prompt-injection-v2) — fast, CPU/GPU.
+     protectai/deberta-v3-base-prompt-injection-v2) - fast, CPU/GPU.
   - "llm_guard":  an LLM safety guard (e.g. meta-llama/Llama-Guard-4, Qwen/Qwen3Guard)
      via its chat template; we parse the safe/unsafe verdict into a score.
 

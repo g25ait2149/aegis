@@ -1,8 +1,8 @@
 """
-Aegis L1 — known-attack signature database.
+Aegis L1 - known-attack signature database.
 
 Two near-zero-false-positive signals:
-  1. Exact match on a *normalized* key — catches re-submitted known attacks even if
+  1. Exact match on a *normalized* key - catches re-submitted known attacks even if
      re-obfuscated (Base64/homoglyph/spacing all collapse to the same key).
   2. A small set of high-precision templates (DAN / developer-mode / override).
 

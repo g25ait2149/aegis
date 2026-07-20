@@ -1,5 +1,5 @@
 """
-Aegis L4 (P5) — secret / credential leak scanner.
+Aegis L4 (P5) - secret / credential leak scanner.
 
 High-signal regexes for the API keys, tokens and private keys that the gitleaks /
 trufflehog / detect-secrets rule families look for, plus a Shannon-entropy fallback for

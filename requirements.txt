@@ -6,7 +6,7 @@ scipy
 # data + eval
 datasets>=2.18
 huggingface_hub
-# optional layers (P2/P3 — embeddings, guard models; GPU recommended)
+# optional layers (P2/P3 - embeddings, guard models; GPU recommended)
 sentence-transformers
 faiss-cpu
 transformers>=4.44

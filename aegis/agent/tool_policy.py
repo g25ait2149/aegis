@@ -1,5 +1,5 @@
 """
-Aegis L3 (P4) — tool-use policy (least privilege for agents).
+Aegis L3 (P4) - tool-use policy (least privilege for agents).
 
 The core agent-safety rule (2026 best practice): a tool that *writes, sends, transfers,
 deletes, or executes* must not run in a turn that has consumed untrusted content, unless

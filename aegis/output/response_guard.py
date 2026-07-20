@@ -1,7 +1,7 @@
 """
-Aegis L4 (P5) — response-safety moderation.
+Aegis L4 (P5) - response-safety moderation.
 
-Decides whether a model RESPONSE is a safe refusal or a harmful compliance — the
+Decides whether a model RESPONSE is a safe refusal or a harmful compliance - the
 "response classification" mode of guard models like Llama Guard, which judge the
 (prompt, response) pair rather than just the prompt. Combines:
   - refusal detection (did the model decline? -> safe), and

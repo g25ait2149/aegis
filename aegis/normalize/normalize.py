@@ -1,5 +1,5 @@
 """
-Aegis L0 — de-obfuscation normalization & provenance tagging.
+Aegis L0 - de-obfuscation normalization & provenance tagging.
 
 Undo the disguises attackers use to slip a jailbreak past a filter, *before* any
 scoring happens. Extends the RJD-v2 normalizer with 2026-era evasions:
@@ -33,7 +33,7 @@ def _strip_invisibles(text: str) -> str:
     for ch in text:
         if ch in ZERO_WIDTH or ch in BIDI:
             continue
-        # Unicode "tag" characters (E0000-E007F) — invisible smuggling channel.
+        # Unicode "tag" characters (E0000-E007F) - invisible smuggling channel.
         if 0xE0000 <= ord(ch) <= 0xE007F:
             continue
         # Variation selectors (FE00-FE0F, E0100-E01EF) used to hide payloads on emoji.

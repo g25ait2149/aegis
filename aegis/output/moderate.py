@@ -1,5 +1,5 @@
 """
-Aegis L4 (P5) — output moderation (delivered).
+Aegis L4 (P5) - output moderation (delivered).
 
 This module is kept as a compatibility shim; the implementation now lives in
 `aegis.output.moderator` (OutputModerator) plus the per-signal modules

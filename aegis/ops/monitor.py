@@ -1,8 +1,8 @@
 """
-Aegis L5 (P5) — runtime monitoring: score-distribution drift + rate alerts.
+Aegis L5 (P5) - runtime monitoring: score-distribution drift + rate alerts.
 
 Holds a reference distribution of detector scores (from eval/validation) and compares a
-live window via PSI (population stability index — the standard drift metric) plus
+live window via PSI (population stability index - the standard drift metric) plus
 block-rate threshold alarms. Lets ops catch a shifting attack mix or a model/base update
 that quietly degrades the filter: the "attacker moves second" continuous-eval loop.
 """

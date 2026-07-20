@@ -1,9 +1,9 @@
 """
-Aegis L2 (P3) — LoRA / QLoRA fine-tune a small guard LLM as a binary safety
+Aegis L2 (P3) - LoRA / QLoRA fine-tune a small guard LLM as a binary safety
 classifier (P(unsafe)). Designed for a single free **T4** (4-bit base + LoRA adapter).
 
 Trains on the assembled Aegis corpus (de-obfuscation-normalized). Saves a small LoRA
-adapter + tokenizer to `out_dir` — published to HF and loaded by guard_model.TunedGuard.
+adapter + tokenizer to `out_dir` - published to HF and loaded by guard_model.TunedGuard.
 
     from aegis.guard.train_guard import train_guard
     from eval import datasets as D

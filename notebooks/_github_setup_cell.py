@@ -1,5 +1,5 @@
 # ============================================================================
-# Aegis setup via GitHub  —  paste this as the FIRST cell of each notebook.
+# Aegis setup via GitHub  -  paste this as the FIRST cell of each notebook.
 # No Kaggle dataset needed. Settings -> Internet: ON.  Refresh = git push; re-run.
 # ============================================================================
 import sys, os, glob, subprocess

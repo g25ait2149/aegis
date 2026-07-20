@@ -1,5 +1,5 @@
 """
-Aegis L1 — RJD fast detector (the millisecond pre-filter).
+Aegis L1 - RJD fast detector (the millisecond pre-filter).
 
 Carries the RJD-v2 design forward: de-obfuscation normalization + word/char TF-IDF
 + 13 engineered features + calibrated soft-vote ensemble, with optional adversarial

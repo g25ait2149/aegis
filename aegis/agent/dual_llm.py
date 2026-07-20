@@ -1,12 +1,12 @@
 """
-Aegis L3 (P4) — Dual-LLM / CaMeL-style agent defense.
+Aegis L3 (P4) - Dual-LLM / CaMeL-style agent defense.
 
 The Privileged planner LLM (plans + calls tools) NEVER sees raw untrusted content.
 Untrusted tool outputs are (1) scanned for injection, (2) sanitized, (3) spotlighted,
 and optionally (4) reduced to plain facts by a Quarantined LLM that has no tool access.
 Dangerous tools are gated by ToolPolicy once the turn is tainted.
 
-LLMs are plain callables f(prompt:str)->str — plug in any model/API; mocks for tests.
+LLMs are plain callables f(prompt:str)->str - plug in any model/API; mocks for tests.
 """
 from ..normalize.normalize import spotlight
 from .injection_scanner import InjectionScanner

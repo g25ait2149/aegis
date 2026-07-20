@@ -1,7 +1,7 @@
 """
-Aegis L1 — semantic (embedding) detector.
+Aegis L1 - semantic (embedding) detector.
 
-Scores a prompt by its maximum cosine similarity to a database of KNOWN attacks —
+Scores a prompt by its maximum cosine similarity to a database of KNOWN attacks -
 catches novel-but-similar attacks (paraphrases, reworded jailbreaks) the exact/keyword
 filters miss.
 
@@ -9,7 +9,7 @@ Backends:
   - "st"    : sentence-transformers. Use `multilingual=True` to load a multilingual
               model so a translated jailbreak lands near its English twin in embedding
               space (the multilingual-attack defense).
-  - "tfidf" : char+word TF-IDF nearest-neighbour — no downloads; char n-grams give some
+  - "tfidf" : char+word TF-IDF nearest-neighbour - no downloads; char n-grams give some
               cross-script signal; used as the offline fallback.
 `backend="auto"` uses sentence-transformers if importable, else TF-IDF.
 """

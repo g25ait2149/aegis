@@ -1,4 +1,4 @@
-"""Aegis — layered (L0–L5) LLM jailbreak & prompt-injection defense.
+"""Aegis - layered (L0-L5) LLM jailbreak & prompt-injection defense.
 
 Top-level convenience exports are lazy (PEP 562) so `import aegis` stays cheap:
 

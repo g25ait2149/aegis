@@ -1,5 +1,5 @@
 """
-Aegis L4 (P5) — OutputModerator: the single egress gate.
+Aegis L4 (P5) - OutputModerator: the single egress gate.
 
 Runs every output-side check and folds them into one decision:
   PII (pii.py) + secrets (secrets.py) + system-prompt/canary leak (leak.py) +

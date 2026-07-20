@@ -1,9 +1,9 @@
 """
-Aegis service (P6) — a FastAPI gateway around the L0–L5 stack.
+Aegis service (P6) - a FastAPI gateway around the L0-L5 stack.
 
 Endpoints
   GET  /health       -> liveness + version
-  POST /scan         -> L0–L1(–L2) input scan: {text, untrusted?}
+  POST /scan         -> L0-L1(-L2) input scan: {text, untrusted?}
   POST /moderate     -> L4 output gate: {response, prompt?, system_prompt?, canary?}
   POST /guard_turn   -> full envelope: {prompt, response, untrusted?}
 
@@ -21,7 +21,7 @@ from pydantic import BaseModel
 from aegis import __version__
 
 app = FastAPI(title="Aegis", version=__version__,
-              description="Layered LLM jailbreak & prompt-injection defense (L0–L5).")
+              description="Layered LLM jailbreak & prompt-injection defense (L0-L5).")
 
 _STATE = {}
 SEED_ATTACKS = [

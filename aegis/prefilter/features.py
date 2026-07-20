@@ -1,4 +1,4 @@
-"""Aegis L1 — engineered tamper features (13 signals)."""
+"""Aegis L1 - engineered tamper features (13 signals)."""
 import re
 import math
 import numpy as np

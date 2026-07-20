@@ -1,5 +1,5 @@
 """
-Attack suite — obfuscations used to (a) augment training and (b) test robustness.
+Attack suite - obfuscations used to (a) augment training and (b) test robustness.
 
 SEEN attacks are used during training augmentation; UNSEEN attacks are held out
 to measure generalization. Used defensively only.
@@ -33,7 +33,7 @@ def zero_width(t, p=0.3, rng=random):
 
 
 def emoji_smuggle(t, rng=random):
-    # interleave variation selectors (invisible) — a 2025/26 smuggling channel
+    # interleave variation selectors (invisible) - a 2025/26 smuggling channel
     vs = "️"
     return "".join(c + (vs if c.isalpha() and rng.random() < 0.3 else "") for c in t)
 

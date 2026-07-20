@@ -1,11 +1,11 @@
 """
-Aegis — multilingual jailbreak-detection eval.
+Aegis - multilingual jailbreak-detection eval.
 
 The same four jailbreak intents expressed in five languages (fixed translations, no MT
 model needed) plus benign controls. Measures per-language recall and FPR. With a
 multilingual semantic model (`FastLayer(multilingual=True)`) the non-English attacks land
 near their English twins in embedding space and are caught; with an English-only model
-they are missed — this slice quantifies that gap.
+they are missed - this slice quantifies that gap.
 """
 import numpy as np
 

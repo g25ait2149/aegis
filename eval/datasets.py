@@ -3,7 +3,7 @@ Aegis corpus assembly & benchmark loaders.
 
 Unified schema {text, label, source, split}; label 1 = attack/unsafe, 0 = benign.
 Benchmark prompt sets are kept test-only. Authenticates to HuggingFace (HF_TOKEN env
-or Kaggle secret) so GATED datasets (AdvBench, HarmBench, WildGuardMix) can load —
+or Kaggle secret) so GATED datasets (AdvBench, HarmBench, WildGuardMix) can load -
 you must also accept each dataset's terms once on its HF page. Falls back to a small
 synthetic corpus if nothing is reachable.
 """
@@ -44,12 +44,12 @@ def hf_login():
         try:
             from huggingface_hub import login
             login(token=tok)
-            print("  [hf] authenticated — gated datasets enabled (if terms accepted)")
+            print("  [hf] authenticated - gated datasets enabled (if terms accepted)")
             return True
         except Exception as e:
             print("  [hf] login failed:", str(e)[:60])
     else:
-        print("  [hf] no HF_TOKEN found — gated datasets will be skipped")
+        print("  [hf] no HF_TOKEN found - gated datasets will be skipped")
     return False
 
 
@@ -96,7 +96,7 @@ def load_source(spec, max_rows=4000):
     except Exception as e:
         msg = str(e)
         if spec.get("gated") and any(k in msg.lower() for k in ("gated", "authenticated", "401", "403", "access")):
-            print(f"  [skip] {spec['name']}: GATED — accept terms at https://huggingface.co/datasets/{spec['hf']} (then set HF_TOKEN)")
+            print(f"  [skip] {spec['name']}: GATED - accept terms at https://huggingface.co/datasets/{spec['hf']} (then set HF_TOKEN)")
         else:
             print(f"  [skip] {spec['name']}: {msg[:80]}")
         return None

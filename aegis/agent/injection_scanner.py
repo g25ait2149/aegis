@@ -1,5 +1,5 @@
 """
-Aegis L3 (P4) — indirect prompt-injection scanner for untrusted content.
+Aegis L3 (P4) - indirect prompt-injection scanner for untrusted content.
 
 Indirect injection hides *instructions to the assistant* inside data an agent reads
 (retrieved web pages, emails, tool outputs, MCP tool descriptions). Unlike a jailbreak,

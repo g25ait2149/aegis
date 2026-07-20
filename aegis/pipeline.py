@@ -34,7 +34,7 @@ class Aegis:
 
         fast = float(self.detector.proba([payload])[0])             # L1 fast layer
         score, used_guard = fast, False
-        # L2 — only escalate the uncertain band to the guard (cheap coverage, deep scrutiny where needed)
+        # L2 - only escalate the uncertain band to the guard (cheap coverage, deep scrutiny where needed)
         if self.guard is not None and self.escalate_to_guard and self.allow_below <= fast < self.block_at:
             g = float(self.guard.proba([payload])[0])
             score, used_guard = max(fast, g), True

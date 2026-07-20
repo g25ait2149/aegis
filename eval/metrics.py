@@ -5,10 +5,10 @@ Security-grade metrics for a detector, given true labels (1=attack/unsafe, 0=ben
 and predicted attack-probabilities in [0,1]:
 
   - roc_auc            : threshold-free ranking quality
-  - recall_at_fpr      : recall (TPR) while wrongly flagging only `fpr` of benign — the
+  - recall_at_fpr      : recall (TPR) while wrongly flagging only `fpr` of benign - the
                          key operating-point metric (default 1% FPR)
   - fpr_at_tpr         : benign false-alarm rate needed to catch `tpr` of attacks
-  - frr                : over-refusal — fraction of benign flagged at a threshold
+  - frr                : over-refusal - fraction of benign flagged at a threshold
   - asr                : attack success rate = fraction of attacks NOT caught (1 - recall)
   - f1 / precision / recall at a threshold
 """

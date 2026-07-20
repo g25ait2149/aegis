@@ -1,5 +1,5 @@
 """
-Aegis P5 — red-team eval.
+Aegis P5 - red-team eval.
 
 Runs the RedTeam mutator battery (aegis.ops.redteam) against a detector and prints the
 attack-success-rate per evasion, so you can see which transforms still beat the filter

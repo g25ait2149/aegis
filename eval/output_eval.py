@@ -1,5 +1,5 @@
 """
-Aegis P5 — output-moderation eval.
+Aegis P5 - output-moderation eval.
 
 A small labeled corpus of model RESPONSES: safe refusals / benign answers vs. leaky
 outputs (PII, secrets, system-prompt regurgitation) and harmful compliances. Reports

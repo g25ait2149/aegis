@@ -1,5 +1,5 @@
 """
-Aegis L2 (P3) — publish the fine-tuned guard LoRA adapter + model card to the
+Aegis L2 (P3) - publish the fine-tuned guard LoRA adapter + model card to the
 HuggingFace Hub (public). Token from arg, HF_TOKEN env, or Kaggle secret.
 
     from aegis.guard.push_guard import push_guard
@@ -26,7 +26,7 @@ tags:
 - lora
 ---
 
-# Aegis Guard (RJD-3) — L2 fine-tuned safety classifier
+# Aegis Guard (RJD-3) - L2 fine-tuned safety classifier
 
 A LoRA adapter over `{base_model}`, fine-tuned as a **binary jailbreak / prompt-injection
 classifier** (P(unsafe)). It is the L2 guard in the **Aegis** layered defense, sitting behind
@@ -52,7 +52,7 @@ print(p_unsafe)
 ```
 
 ## Limitations
-A defensive filter, not a guarantee — no single guard stops adaptive attacks. Use within the
+A defensive filter, not a guarantee - no single guard stops adaptive attacks. Use within the
 full Aegis cascade (fast pre-filter + this guard + agent/output layers) and retrain periodically.
 Aligned to OWASP LLM Top 10 (LLM01) and NIST AI RMF.
 """

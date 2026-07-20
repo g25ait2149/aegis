@@ -1,5 +1,5 @@
 """
-Aegis L2 (P3) — load the fine-tuned guard and ensemble guards.
+Aegis L2 (P3) - load the fine-tuned guard and ensemble guards.
 
   - TunedGuard   : loads our LoRA adapter (from train_guard / the HF Hub) and returns
                    P(unsafe) per prompt.

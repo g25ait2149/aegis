@@ -1,12 +1,12 @@
 """
-Aegis L5 (P5) — automated red-team harness (defensive / evaluation-only).
+Aegis L5 (P5) - automated red-team harness (defensive / evaluation-only).
 
-Takes KNOWN seed attacks and applies a battery of evasion MUTATORS — the transforms real
+Takes KNOWN seed attacks and applies a battery of evasion MUTATORS - the transforms real
 attackers use (encoding, leetspeak, homoglyphs, zero-width injection, roleplay / prefix /
-suffix wrappers) — runs each through a detector, and reports attack-success-rate
+suffix wrappers) - runs each through a detector, and reports attack-success-rate
 (ASR = fraction that slips below the block threshold) per mutator. This is the local
 stand-in for garak / PyRIT: it quantifies which evasions still beat the filter so they can
-be hardened. It only mutates attacks already in the corpus — no novel weaponization.
+be hardened. It only mutates attacks already in the corpus - no novel weaponization.
 """
 import base64
 import numpy as np

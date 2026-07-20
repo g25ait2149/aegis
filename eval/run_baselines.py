@@ -1,5 +1,5 @@
 """
-Aegis P1/P2 — assemble corpus, train baselines + the Aegis-Fast L1 stack, evaluate on
+Aegis P1/P2 - assemble corpus, train baselines + the Aegis-Fast L1 stack, evaluate on
 every test set, print the comparison + robustness tables, and (optionally) log to W&B.
 
     python -m eval.run_baselines                 # CPU; includes Aegis-Fast

@@ -1,5 +1,5 @@
 """
-Aegis L4 (P5) — PII scanner.
+Aegis L4 (P5) - PII scanner.
 
 Regex + checksum detection of personal data in model OUTPUT (and in tool results before
 they re-enter the model), mirroring Microsoft Presidio's predefined recognizers but

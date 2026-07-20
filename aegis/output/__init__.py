@@ -1,4 +1,4 @@
-"""Aegis L4 — output-side moderation (PII, secrets, system-prompt leak, response safety)."""
+"""Aegis L4 - output-side moderation (PII, secrets, system-prompt leak, response safety)."""
 from .pii import PIIScanner
 from .secrets import SecretScanner
 from .leak import SystemPromptLeakDetector

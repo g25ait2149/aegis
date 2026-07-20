@@ -1,11 +1,11 @@
 """
-Aegis L4 (P5) — system-prompt / canary leak detection.
+Aegis L4 (P5) - system-prompt / canary leak detection.
 
 Catches the model regurgitating its hidden system prompt or a planted canary token.
 Two signals:
-  1. exact canary match — plant a random token in the system prompt; if it ever appears
+  1. exact canary match - plant a random token in the system prompt; if it ever appears
      in an output the prompt has leaked (zero false positives).
-  2. n-gram overlap between the response and the protected system prompt — a fuzzy leak
+  2. n-gram overlap between the response and the protected system prompt - a fuzzy leak
      signal that fires even when the prompt is reworded or partially quoted.
 """
 import re

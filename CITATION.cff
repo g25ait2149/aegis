@@ -1,0 +1,41 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "Aegis: a layered defense for large language models"
+abstract: >-
+  Aegis is a defense-in-depth system for LLM jailbreak and prompt-injection defense,
+  combining de-obfuscation, a fast detector, a fine-tuned guard, agent and tool-injection
+  defense, output moderation, and continuous red-teaming, designed to run on a single free
+  GPU and aligned to the OWASP LLM Top 10, NIST AI RMF, and MITRE ATLAS.
+type: software
+authors:
+  - given-names: "Sai Pavan Vamshi Krishna"
+    family-names: "U E"
+    affiliation: "Indian Institute of Technology Jodhpur"
+version: "0.6.0"
+license: MIT
+repository-code: "https://github.com/g25ait2149/aegis"
+keywords:
+  - llm-security
+  - jailbreak-detection
+  - prompt-injection
+  - ai-safety
+  - guardrails
+  - red-teaming
+references:
+  - type: conference-paper
+    title: >-
+      "Do Anything Now": Characterizing and Evaluating In-The-Wild Jailbreak Prompts on
+      Large Language Models
+    authors:
+      - family-names: Shen
+        given-names: Xinyue
+      - family-names: Chen
+        given-names: Zeyuan
+      - family-names: Backes
+        given-names: Michael
+      - family-names: Shen
+        given-names: Yun
+      - family-names: Zhang
+        given-names: Yang
+    collection-title: "ACM SIGSAC Conference on Computer and Communications Security (CCS)"
+    year: 2024

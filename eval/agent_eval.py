@@ -1,5 +1,5 @@
 """
-Aegis P4 — indirect prompt-injection benchmark for agents (runs on CPU, no LLM needed).
+Aegis P4 - indirect prompt-injection benchmark for agents (runs on CPU, no LLM needed).
 
 Each scenario is a piece of UNTRUSTED content an agent would read (email, web page,
 calendar invite, document) paired with a dangerous tool the injection wants to trigger.

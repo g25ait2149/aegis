@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "aegis-guard"
 version = "0.6.0"
-description = "Aegis — layered (L0–L5) LLM jailbreak & prompt-injection defense: de-obfuscation, fast detector, fine-tuned guard ensemble, agent defense, output moderation, continuous red-team."
+description = "Aegis - layered (L0-L5) LLM jailbreak & prompt-injection defense: de-obfuscation, fast detector, fine-tuned guard ensemble, agent defense, output moderation, continuous red-team."
 readme = "README.md"
 requires-python = ">=3.10"
 license = {text = "MIT"}

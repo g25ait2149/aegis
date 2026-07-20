@@ -1,5 +1,5 @@
 """
-Aegis L1 — FastLayer: the cheap first tier of the cascade.
+Aegis L1 - FastLayer: the cheap first tier of the cascade.
 
 Stacks three complementary signals (each covering a different failure mode):
   - RJD-v2 detector  : de-obfuscation + TF-IDF + features (strong on obfuscation)

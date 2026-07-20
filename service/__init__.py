@@ -1,1 +1,1 @@
-"""Aegis FastAPI service — /scan (input), /moderate (output), /guard_turn (full envelope)."""
+"""Aegis FastAPI service - /scan (input), /moderate (output), /guard_turn (full envelope)."""

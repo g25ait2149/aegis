@@ -37,9 +37,9 @@ def _detector():
 
 
 def main(argv=None):
-    p = argparse.ArgumentParser(prog="aegis", description="Aegis — layered LLM defense CLI")
+    p = argparse.ArgumentParser(prog="aegis", description="Aegis - layered LLM defense CLI")
     sub = p.add_subparsers(dest="cmd")
-    sp = sub.add_parser("scan", help="score a prompt (L0–L1)")
+    sp = sub.add_parser("scan", help="score a prompt (L0-L1)")
     sp.add_argument("text")
     sp.add_argument("--block-at", type=float, default=0.8)
     sp.add_argument("--allow-below", type=float, default=0.2)

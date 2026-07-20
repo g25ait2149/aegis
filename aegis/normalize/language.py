@@ -1,5 +1,5 @@
 """
-Aegis L0 — language signal.
+Aegis L0 - language signal.
 
 Multilingual attacks (a jailbreak written in Hindi/Spanish/Chinese) evade English-only
 filters. This module tags the language/script so the pipeline can (a) route to the
