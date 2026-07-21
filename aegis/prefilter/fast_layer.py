@@ -8,7 +8,8 @@ Stacks three complementary signals (each covering a different failure mode):
   - SignatureDB      : exact known-attack + high-precision templates
 
 Combiner is a recall-preserving max: FastLayer's score is always >= RJD's, so it can
-only add recall, never regress. The semantic signal is gated to keep FPR near RJD's.
+only add recall, never regress. The semantic signal is gated (sem_gate) so it only fires
+on near-duplicate attacks; a high gate keeps over-refusal (FRR) low on clean traffic.
 """
 import numpy as np
 
@@ -18,7 +19,7 @@ from .signatures import SignatureDB
 
 
 class FastLayer:
-    def __init__(self, semantic_backend="auto", multilingual=False, name="Aegis-Fast", sem_gate=0.5):
+    def __init__(self, semantic_backend="auto", multilingual=False, name="Aegis-Fast", sem_gate=0.85):
         self.rjd = RJDDetector(norm=True, char=True, feats_on=True, aug=True, calib=True, name="RJD-v2")
         self.sem = SemanticDetector(backend=semantic_backend, multilingual=multilingual)
         self.sig = SignatureDB()
