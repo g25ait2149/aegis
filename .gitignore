@@ -20,3 +20,29 @@ dist/
 .env
 wandb/
 .cache/
+# extra model / checkpoint formats (keep large binaries and tuned weights out)
+*.pt
+*.pth
+*.ckpt
+*.gguf
+*.onnx
+*.h5
+adapter_model*/
+checkpoints/
+# datasets / large data (corpora download at runtime; never commit them)
+data/raw/
+*.parquet
+*.npy
+*.npz
+*.tar
+*.tar.gz
+# secrets / credentials (patterns chosen NOT to match source like output/secrets.py)
+*.pem
+*.key
+kaggle.json
+.env.*
+hf_token*
+*.token
+.secrets/
+# private planning docs (local only, do not publish)
+RELEASE_AND_IP_PLAN.md
