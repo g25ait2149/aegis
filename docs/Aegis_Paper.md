@@ -1,13 +1,13 @@
 # Aegis: A Layered, Defense-in-Depth System for LLM Jailbreak and Prompt-Injection Defense
 
 **U E Sai Pavan Vamshi Krishna** (G25AIT2149) - M.Tech, Indian Institute of Technology Jodhpur
-Course project, CSL6010 (Cyber Security). Successor to **RJD-v2**. June 2026.
+Course project, CSL6010 (Cyber Security). Successor to **RJD-v2**. July 2026.
 
 ---
 
 ## Abstract
 
-Large language models deployed as assistants and autonomous agents face a moving adversary: jailbreaks that strip safety behaviour, prompt injections hidden in retrieved content, obfuscated and translated attacks, and responses that leak secrets or private data. Prompt injection is the **#1 risk** in the OWASP Top 10 for LLM Applications, and recent adaptive-attack work shows that *any single* filter, once known, can be evaded - "the attacker moves second." We present **Aegis**, a defense-in-depth system that composes six independent layers (L0-L5): input normalization and provenance, a fast statistical detector, a fine-tuned guard ensemble, agent/tool-injection defense, output moderation, and continuous red-teaming with drift monitoring. Each layer targets a distinct failure mode, so bypassing one is not sufficient to break the system. Aegis is engineered to train and run entirely on a single free Kaggle **T4** GPU, ships as an open-source `pip` library and a FastAPI service, and is aligned to the OWASP LLM Top 10 and the NIST AI Risk Management Framework. We describe the threat model, the architecture, the evaluation methodology (security-grade metrics, contamination control), and the system's limitations.
+Large language models deployed as assistants and autonomous agents face a moving adversary: jailbreaks that strip safety behaviour, prompt injections hidden in retrieved content, obfuscated and translated attacks, and responses that leak secrets or private data. Prompt injection is the **#1 risk** in the OWASP Top 10 for LLM Applications, and recent adaptive-attack work shows that *any single* filter, once known, can be evaded - "the attacker moves second." We present **Aegis**, a defense-in-depth system that composes six independent layers (L0-L5): input normalization and provenance, a fast statistical detector, a fine-tuned guard ensemble, agent/tool-injection defense, output moderation, and continuous red-teaming with drift monitoring. Each layer targets a distinct failure mode, so bypassing one is not sufficient to break the system. Aegis is engineered to train and run entirely on a single free Kaggle **T4** GPU, ships as an open-source `pip` library and a FastAPI service, and is aligned to the OWASP LLM Top 10 and the NIST AI Risk Management Framework. We describe the threat model, the architecture, the evaluation methodology (security-grade metrics, contamination control), and the system's limitations. Empirically, L0 de-obfuscation gives the fast layer Base64 and ROT13 recall of 1.00 where keyword and TF-IDF filters score 0.00; the fine-tuned guard generalizes to unseen benchmarks (ROC-AUC 0.72-0.92) where the classical detectors fall toward chance; and the output gate reaches precision = recall = 1.0 on a labeled leak/harm probe.
 
 ## 1. Introduction
 
@@ -67,11 +67,47 @@ The system is a single Python package with no mandatory heavy dependencies (core
 
 **Methodology.** We report **security-grade** metrics rather than plain accuracy: ROC-AUC, **recall @ 1% FPR** (the operating point that matters when most traffic is benign), **FPR @ 95% TPR**, **over-refusal / false-refusal rate (FRR)**, **attack-success-rate (ASR)**, F1, and latency. The corpus assembles in-the-wild jailbreaks, JailbreakBench, AdvBench, HarmBench, and WildGuardMix; benchmark prompt sets are kept **test-only** to avoid contamination. Output moderation is scored by flag precision/recall on a labeled probe set; robustness by ASR-per-mutator; multilingual coverage by macro-recall across five languages.
 
-**Representative findings.** (1) The recall-preserving combiner guarantees FastLayer >= RJD-v2 on every slice, so L1 strictly dominates the prior detector. (2) After L0 normalization, the obfuscation mutators (Base64, homoglyph, zero-width, leetspeak, spacing) collapse to **near-zero ASR** against L1 - the layered design closes those channels. (3) On the labeled output-moderation probe set, the L4 gate reached **precision = recall = 1.0** (PII redacted, secrets/leaks/harmful compliance blocked, refusals allowed). (4) The selective cascade routes only the uncertain band to the L2 guard, keeping average cost low. (5) The drift monitor reliably trips a PSI alert under an attack-surge window. Exact benchmark numbers are reproduced by the P1-P6 notebooks and logged to Weights & Biases; we deliberately avoid quoting point estimates that depend on the specific run and on access to gated datasets.
+**Findings.** All figures are from the harness on real corpora (1364 in-the-wild jailbreaks,
+4000 benign, plus JailbreakBench/AdvBench/HarmBench/WildGuardMix), logged to Weights & Biases;
+recall is at a fixed 1% FPR.
+
+*L1 detectors, in-distribution (n=1605):*
+
+| Detector | ROC-AUC | Recall@1%FPR | FRR | F1 |
+|---|---|---|---|---|
+| Keyword | 0.680 | 0.093 | 0.120 | 0.506 |
+| Word TF-IDF | 0.934 | 0.396 | 0.064 | 0.783 |
+| RJD-v1 | 0.932 | 0.340 | 0.043 | 0.765 |
+| RJD-v2 (L1 core) | 0.925 | 0.355 | 0.037 | 0.766 |
+| Aegis-Fast (L1 ensemble) | 0.875 | 0.164 | 0.169 | 0.662 |
+
+RJD-v2 matches or beats the public DeBERTa injection guard (`deberta-v3-base-prompt-injection-v2`)
+on three of four benchmarks (in-distribution ROC 0.925 vs 0.896; HarmBench 0.708 vs 0.309;
+WildGuardMix a tie; JailbreakBench 0.441 vs 0.600) at about 8x lower latency, CPU-only.
+
+*Obfuscation robustness (recall under attack).* RJD de-obfuscates before scoring, so Base64 and
+ROT13 recall are **1.00** where keyword and TF-IDF score 0.00 (leetspeak 0.96, homoglyph
+0.85-0.87, zero-width ~0.73). The recall-preserving combiner keeps FastLayer >= RJD-v2 on every
+slice.
+
+*L2 guard (QLoRA, Qwen2.5-1.5B).* Cross-benchmark ROC-AUC **0.72-0.92** (AdvBench 0.72,
+HarmBench 0.74, WildGuardMix 0.63) at **FRR 0.03-0.06** - it generalizes to attacks it never
+trained on, where the classical detectors' out-of-distribution ROC falls to 0.16-0.57. This gap
+is the empirical justification for the selective cascade: cheap layers on all traffic, the guard
+on the uncertain band.
+
+*Upper layers.* L3 agent defense scores 1.00 / 1.00 / 1.00 (injection-detection /
+dangerous-action-block / benign-pass) on the indirect-injection scenario set. The L4 egress gate
+reaches precision = recall = F1 = **1.00** on the labeled leak/harm probe (PII redacted,
+secrets/leaks/harmful compliance blocked, refusals allowed). L5 red-teaming gives **mean ASR
+0.33** across nine mutators - encoding and role-play channels fully closed (ASR 0.00),
+character-spacing still open (ASR 1.00) and named as the next hardening target - and the PSI
+drift monitor trips (**PSI 11.8**) on an attack-surge window. Point estimates depend on the run
+and on gated-dataset access; the P1-P6 notebooks reproduce them end to end.
 
 ## 7. Limitations
 
-No single defense - and no stack - is unbreakable; Aegis raises cost, it does not guarantee safety. The L2 guard is English-centric unless trained with translated data; L4 response-safety uses a lightweight heuristic/guard scorer that is weaker than a full response classifier; the secret/PII regexes trade some recall for precision and can be evaded by novel formats (Presidio/NER closes part of this gap); the offline fallbacks reduce accuracy relative to a fully-resourced run; and the red-team harness mutates *known* attacks, so it measures evasion of catalogued techniques rather than discovering novel ones. These are exactly why L5 (continuous red-teaming + monitoring) exists.
+No single defense - and no stack - is unbreakable; Aegis raises cost, it does not guarantee safety. The L2 guard is English-centric unless trained with translated data; L4 response-safety uses a lightweight heuristic/guard scorer that is weaker than a full response classifier; the secret/PII regexes trade some recall for precision and can be evaded by novel formats (Presidio/NER closes part of this gap); the offline fallbacks reduce accuracy relative to a fully-resourced run; and the red-team harness mutates *known* attacks, so it measures evasion of catalogued techniques rather than discovering novel ones. Concretely, L5 currently finds that character-spacing evasion still beats L1 (ASR 1.00), and the L1 ensemble is deliberately tuned for calm over coverage: its semantic gate is set high to hold over-refusal at FRR 0.169, so subtle paraphrases pass the cheap tier and depend on the L2 guard to catch. RJD-v2 alone remains the stronger single detector in-distribution; the ensemble's value is layering, not any one signal. These trade-offs are exactly why L5 (continuous red-teaming + monitoring) exists.
 
 ## 8. Ethics and Responsible Use
 

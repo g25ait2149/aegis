@@ -88,34 +88,57 @@ uvicorn service.app:app --port 8000     # POST /scan, /moderate, /guard_turn ; d
 
 ## Results
 
-Numbers below are for the L1 detector (RJD-v2) on a held-out in-the-wild test split, using
-the same protocol for every model. It is CPU-only and about 5 ms per prompt. The remaining
-layers (guard, agent, output, red-team) are evaluated phase by phase in the notebooks and
-logged to Weights & Biases; see [Reproduce](#reproduce).
+All numbers come from the evaluation harness in the notebooks (P1-P6), on real corpora:
+1364 in-the-wild jailbreaks and 4000 benign prompts, plus four held-out public benchmarks
+(JailbreakBench, AdvBench, HarmBench, WildGuardMix). The same protocol scores every model,
+and every run is logged to Weights & Biases; see [Reproduce](#reproduce). Accuracy is read at
+a fixed 1% false-positive rate, the operating point that matters when almost all real traffic
+is benign.
 
-| Detector | Clean F1 | ROC-AUC | Over-refusal | Latency |
+L1 detectors on the in-distribution test split (n=1605). Latency is CPU-only, per prompt:
+
+| Detector | ROC-AUC | Recall@1%FPR | Over-refusal (FRR) | F1 | Latency |
+|---|---|---|---|---|---|
+| Keyword baseline | 0.680 | 0.093 | 0.120 | 0.506 | ~0.3 ms |
+| Word TF-IDF | 0.934 | 0.396 | 0.064 | 0.783 | ~0.5 ms |
+| RJD-v1 | 0.932 | 0.340 | 0.043 | 0.765 | ~9 ms |
+| RJD-v2 (L1 core) | 0.925 | 0.355 | 0.037 | 0.766 | ~9 ms |
+| Aegis-Fast (L1 ensemble) | 0.875 | 0.164 | 0.169 | 0.662 | ~18 ms |
+
+Recall under obfuscation, where keyword and plain TF-IDF filters collapse to near zero because
+they never see past the disguise, while RJD de-obfuscates first:
+
+| Attack | Keyword | Word TF-IDF | RJD-v2 | Aegis-Fast |
 |---|---|---|---|---|
-| Keyword baseline | 0.65 | 0.78 | 0.0% | ~0.06 ms |
-| Word TF-IDF | 0.86 | 0.96 | 2.5% | ~0.22 ms |
-| RJD-v1 | 0.87 | 0.96 | 15% | ~1.9 ms |
-| RJD-v2 (L1 here) | 0.89 | 0.97 | 2.5% | ~5 ms |
+| Base64 | 0.00 | 0.00 | 1.00 | 1.00 |
+| ROT13 | 0.00 | 0.00 | 1.00 | 1.00 |
+| Leetspeak | 0.37 | 0.73 | 0.96 | 0.96 |
+| Homoglyph | 0.34 | 0.72 | 0.85 | 0.87 |
+| Zero-width | 0.19 | 0.67 | 0.69 | 0.73 |
+| Emoji-smuggle | 0.21 | 0.70 | 0.76 | 0.79 |
+| ASCII-art (held out) | 0.00 | 0.00 | 0.53 | 0.56 |
 
-Recall under obfuscation, where keyword and plain TF-IDF filters collapse to near zero
-because they never see past the disguise:
+Against a public neural guardrail (`protectai/deberta-v3-base-prompt-injection-v2`) on the same
+sets, RJD-v2 matches or beats it on three of four benchmarks: in-distribution ROC-AUC 0.925 vs
+0.896, HarmBench 0.708 vs 0.309, WildGuardMix a tie, losing only JailbreakBench (0.441 vs
+0.600). It does so at about 8x lower latency (~9 ms vs 63 ms) and CPU-only. DeBERTa is trained
+for injection rather than harmful-instruction jailbreaks, so HarmBench is somewhat outside its
+domain, but the comparison is on identical data and reproducible in the P1 notebook.
 
-| Attack | Keyword | Word TF-IDF | RJD-v2 |
-|---|---|---|---|
-| Base64 | 0.00 | 0.00 | 1.00 |
-| ROT13 | 0.00 | 0.00 | 1.00 |
-| Homoglyph | 0.31 | 0.81 | 0.95 |
-| Zero-width | 0.09 | 0.63 | 0.96 |
-| Paraphrase (40%) | 0.38 | 0.80 | 0.99 |
-| ASCII-art (held out) | 0.38 | 0.83 | 0.87 |
+The upper layers, evaluated in their own notebooks:
 
-Against a public neural guardrail (`protectai/deberta-v3-base-prompt-injection-v2`) on the
-same set, RJD-v2 reaches F1 0.58 vs 0.43 at roughly 9x lower latency. Accuracy is reported
-at a fixed low false-positive rate, which is the operating point that matters when almost
-all real traffic is benign.
+| Layer | Result on its benchmark |
+|---|---|
+| L2 guard (QLoRA, 1.5B) | Cross-benchmark ROC-AUC 0.72-0.92 (AdvBench 0.72, HarmBench 0.74, WildGuardMix 0.63) at FRR 0.03-0.06. It generalizes to attacks it never trained on, where every classical detector fades. This is the reason the cascade escalates the uncertain band to the guard. |
+| L3 agent | Injection detection, dangerous-action block, and benign pass all 1.00 on the indirect-injection scenario set (email / web / calendar / document / tool-poisoning). |
+| L4 output | Precision, recall, F1 all 1.00 on the labeled leak/harm probe: PII redacted, secrets and system-prompt leaks and unsafe compliance blocked, refusals and benign replies allowed. |
+| L5 ops | Automated red-team mean attack-success-rate 0.33 (Base64 and role-play channels fully closed; character-spacing is the current open gap). The drift monitor trips (PSI 11.8) on an attack surge. |
+
+A note on the L1 ensemble: Aegis-Fast raises the semantic gate so it only fires on
+near-duplicate attacks. That keeps over-refusal in a usable range (FRR 0.169) and lets subtle
+paraphrases pass the cheap tier on purpose, to be caught by the L2 guard rather than by a
+trigger-happy L1. RJD-v2 alone is the better single detector in-distribution; the value of the
+whole is the layering, not any one layer.
 
 ## Standards coverage
 
